@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+
+# Carrega as imagens
+img = cv2.imread('j.png', 0)
+img_opening = cv2.imread('j_ruido.png', 0)
+img_closing = cv2.imread('j_furos.png', 0)
+
+# Obtém as dimensões da imagem
+altura, largura = img.shape
+
+# Define o kernel
+kernel = np.ones((5, 5), np.uint8)
+
+# Imprime o kernel
+print(kernel)
+
+# Aplica as operações morfológicas
+erosion = cv2.erode(img, kernel, iterations=2)
+dilation = cv2.dilate(img, kernel, iterations=2)
+gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+opening = cv2.morphologyEx(img_opening, cv2.MORPH_OPEN, kernel)
+closing = cv2.morphologyEx(img_closing, cv2.MORPH_CLOSE, kernel)
+
+# Exibe as imagens em janelas separadas
+cv2.imshow('Original', img)
+cv2.imshow('Erosion', erosion)
+cv2.imshow('Dilation', dilation)
+cv2.imshow('Gradient', gradient)
+cv2.imshow('Opening', opening)
+cv2.imshow('Closing', closing)
+
+# Aguarda a tecla 'Esc' ser pressionada para fechar as janelas
+cv2.waitKey(0)
+cv2.destroyAllWindows()
